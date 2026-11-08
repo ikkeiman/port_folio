@@ -68,8 +68,7 @@ export const works = [
     period: '2019 –',
     role: 'ヒアリング / 選定 / 開発 / 推進体制の設計',
     stack: ['RPA', 'AI-OCR', 'Python', 'kintone', 'Excel VBA'],
-    problem:
-      '部署ごとに紙と手作業の定型業務が残り、どこから自動化すべきかの優先順位がなかった。',
+    problem: '部署ごとに紙と手作業の定型業務が残り、どこから自動化すべきかの優先順位がなかった。',
     approach:
       '6部署にヒアリングして59件の候補から39件を選定。紙の帳票をAI-OCRで読み取りkintoneへ自動登録する仕組みなどを構築し、案件の受付をkintoneに一本化、各部署に窓口を置く体制に見直した。',
     result:
@@ -104,6 +103,36 @@ export const works = [
       'Claude Code・Codex・Discordを組み合わせたチーム開発基盤も整備。店舗から対価を受け取らない設計で、おすすめの公平性を構造的に担保する方針。',
     link: 'https://github.com/ikkeiman',
   },
+  {
+    id: 'guard',
+    index: '07',
+    title: 'llm-guard-gateway — 送る前に止める LLM 入力ガード',
+    period: '2026 – 公開リポジトリ',
+    role: '設計 / 実装 / 評価設計',
+    stack: ['Python / FastAPI', 'GiNZA', 'Ollama', 'OpenAI 互換 API', 'pytest / GitHub Actions'],
+    problem:
+      '02 の生成AI基盤の中核「入力を判定して個人情報を止めてから外部LLMへ送る」を、会社固有のルールやコードと切り離して公開できる形で示したかった。',
+    approach:
+      '一般的な日本の個人情報（個人番号・電話・住所・メール・カード・口座・氏名）を対象に、ルール → 固有表現抽出 → ローカルLLM判定の3段階で検査し、マスク／拒否／保留を設定で選べる OpenAI 互換プロキシとして一から作り直した。合成データ500件で見逃し率・止めすぎ率・応答時間を測る評価ハーネスを同梱。',
+    result:
+      '既定設定で見逃し 2.8%・止めすぎ 0.0%（合成データでの参考値）。評価で見つかった「LLMが住所や番号を個人情報でないと判断する」問題を、候補を渡す聞き方と検証済み番号の保護で解決した経緯も README に残した。',
+    link: 'https://github.com/ikkeiman/llm-guard-gateway',
+  },
+  {
+    id: 'mcp-guide',
+    index: '08',
+    title: 'secure-mcp-server-guide — Claude Desktop に入れる MCP サーバーの安全な作り方',
+    period: '2026 – 公開リポジトリ',
+    role: '調査 / 設計案の比較 / 参照実装',
+    stack: ['MCP（公式 Python SDK）', 'Python', 'pytest / GitHub Actions'],
+    problem:
+      'ローカルのMCPサーバーは利用者の権限で動く子プロセスで、本文に混ざった指示によるツールの悪用や、許可していないフォルダの読み取りが起きうる。',
+    approach:
+      '脅威を10項目に整理し、よくある実装の問題点、4つの設計案（単機能／ポリシー層／コンテナ／ゲートウェイ）の比較、導入前のチェックリストをまとめた。推奨案「読み取り専用・許可リストの単機能サーバー」を参照実装し、パストラバーサルやシンボリックリンクのテストで固定。',
+    result:
+      '公式の仕様とドキュメントで確認できた事実だけを書き、確認できなかった点は「要確認」と明記。設定例は Claude Desktop の公式ドキュメントにある形式に限定した。',
+    link: 'https://github.com/ikkeiman/secure-mcp-server-guide',
+  },
 ]
 
 export const skillGroups = [
@@ -111,9 +140,15 @@ export const skillGroups = [
     name: '言語・フレームワーク',
     items: [
       { name: 'Python / FastAPI', note: 'API約35本、判定サーバー、OCR連携、集計処理' },
-      { name: 'JavaScript / Vue 3', note: '業務システムの画面設計・実装、kintoneカスタマイズ約3,500行' },
+      {
+        name: 'JavaScript / Vue 3',
+        note: '業務システムの画面設計・実装、kintoneカスタマイズ約3,500行',
+      },
       { name: 'C# / .NET 8 / WPF', note: 'デスクトップ業務ツール、Windowsアプリ' },
-      { name: 'Java / SQL / Excel VBA / PowerShell', note: '基幹システムの一部開発・保守、自動化、運用スクリプト' },
+      {
+        name: 'Java / SQL / Excel VBA / PowerShell',
+        note: '基幹システムの一部開発・保守、自動化、運用スクリプト',
+      },
       { name: 'React 19 / Capacitor', note: '個人開発でのモバイル基盤（学習中）' },
     ],
   },
@@ -123,38 +158,92 @@ export const skillGroups = [
       { name: 'PostgreSQL / PostGIS', note: '位置情報を扱うテーブル設計、SQLチューニング' },
       { name: 'AWS', note: 'LLM基盤の環境・セキュリティ設計をベンダーと協働' },
       { name: 'GitHub Enterprise', note: '導入とセキュリティ対応、開発環境の整備' },
-      { name: 'kintone / RPA / AI-OCR / Tableau', note: '業務の流れを作るための基盤として日常的に利用' },
+      {
+        name: 'kintone / RPA / AI-OCR / Tableau',
+        note: '業務の流れを作るための基盤として日常的に利用',
+      },
     ],
   },
   {
     name: 'AI',
     items: [
-      { name: 'LLM API / ローカルLLM（Ollama）', note: '用途に応じて外部LLMと社内完結LLMを使い分ける構成設計' },
-      { name: 'MCPサーバー / AIエージェント', note: '大学の研究者のもとで試作・検証（2024 – 2026）' },
-      { name: 'AIの入出力の安全設計', note: '個人情報の検出、AIをだます指示への対策、権限と認定の連動' },
-      { name: 'AIを使った開発', note: 'Claude Code・GitHub Copilot・Codexで業務ツールを短期間に実装' },
+      {
+        name: 'LLM API / ローカルLLM（Ollama）',
+        note: '用途に応じて外部LLMと社内完結LLMを使い分ける構成設計',
+      },
+      {
+        name: 'MCPサーバー / AIエージェント',
+        note: '大学の研究者のもとで試作・検証（2024 – 2026）。安全な作り方のガイドと参照実装を公開',
+      },
+      {
+        name: 'AIの入出力の安全設計',
+        note: '個人情報の検出、AIをだます指示への対策、権限と認定の連動',
+      },
+      {
+        name: 'AIを使った開発',
+        note: 'Claude Code・GitHub Copilot・Codexで業務ツールを短期間に実装',
+      },
     ],
   },
   {
     name: '進め方',
     items: [
       { name: '要件定義・設計', note: 'ヒアリングから画面・API・DB設計まで一人で通す' },
-      { name: '経営層への説明・ベンダー調整', note: '役員向け資料の作成と報告、外部ベンダーとの設計調整' },
+      {
+        name: '経営層への説明・ベンダー調整',
+        note: '役員向け資料の作成と報告、外部ベンダーとの設計調整',
+      },
       { name: '制度起案・研修', note: 'AI利用ルール、認定制度、評価制度案、新卒研修の講師' },
     ],
   },
 ]
 
 export const timeline = [
-  { year: '2018', title: '共済団体に営業職として入社', text: '現場で1年。独学でExcelマクロと社内ポータルを作り、評価されてシステム部門へ。' },
-  { year: '2019', title: 'システム部門へ異動、HAL名古屋に入学', text: '働きながら高度情報学科（4年制）へ。社内システムの開発・保守とRPA推進を担当。' },
-  { year: '2020', title: 'HAL EVENT WEEK 銅賞', text: 'J検 情報システム試験（プログラマ認定）を取得。' },
-  { year: '2021', title: '基本情報技術者試験 合格、HAL EVENT WEEK 金賞', text: '3校合同コンテスト 銅賞、ビジネスアイデアコンテスト アイデア賞。J検 システムエンジニア認定。' },
-  { year: '2022', title: 'RPA検定 合格、Notes → kintone 移行', text: '約50アプリを設計・開発。Azureで音声認識・自然言語処理のAI開発にも着手。' },
-  { year: '2023', title: 'HAL名古屋 卒業、未来創造展 銅賞', text: 'Javaプログラミング能力認定試験2級。RPAの全社ヒアリングを主導。' },
-  { year: '2024', title: '新設のDX推進部門の責任者に', text: '入社7年目。大学の研究者のもとでAI・データ分析の学習とAIエージェントの試作を開始。' },
-  { year: '2025', title: '営業支援システムを一人で内製', text: '地図×GPS×AI、約30,000行。ローカルLLM業務ツールの開発。' },
-  { year: '2026', title: '情報セキュリティマネジメント試験 合格', text: '全職員向け生成AI基盤とAI利用の認定制度を設計。個人開発mopoを開始。' },
+  {
+    year: '2018',
+    title: '共済団体に営業職として入社',
+    text: '現場で1年。独学でExcelマクロと社内ポータルを作り、評価されてシステム部門へ。',
+  },
+  {
+    year: '2019',
+    title: 'システム部門へ異動、HAL名古屋に入学',
+    text: '働きながら高度情報学科（4年制）へ。社内システムの開発・保守とRPA推進を担当。',
+  },
+  {
+    year: '2020',
+    title: 'HAL EVENT WEEK 銅賞',
+    text: 'J検 情報システム試験（プログラマ認定）を取得。',
+  },
+  {
+    year: '2021',
+    title: '基本情報技術者試験 合格、HAL EVENT WEEK 金賞',
+    text: '3校合同コンテスト 銅賞、ビジネスアイデアコンテスト アイデア賞。J検 システムエンジニア認定。',
+  },
+  {
+    year: '2022',
+    title: 'RPA検定 合格、Notes → kintone 移行',
+    text: '約50アプリを設計・開発。Azureで音声認識・自然言語処理のAI開発にも着手。',
+  },
+  {
+    year: '2023',
+    title: 'HAL名古屋 卒業、未来創造展 銅賞',
+    text: 'Javaプログラミング能力認定試験2級。RPAの全社ヒアリングを主導。',
+  },
+  {
+    year: '2024',
+    title: '新設のDX推進部門の責任者に',
+    text: '入社7年目。大学の研究者のもとでAI・データ分析の学習とAIエージェントの試作を開始。',
+  },
+  {
+    year: '2025',
+    title: '営業支援システムを一人で内製',
+    text: '地図×GPS×AI、約30,000行。ローカルLLM業務ツールの開発。',
+  },
+  {
+    year: '2026',
+    title: '情報セキュリティマネジメント試験 合格',
+    text: '全職員向け生成AI基盤とAI利用の認定制度を設計。個人開発mopoを開始。公開リポジトリ llm-guard-gateway と secure-mcp-server-guide を作成。',
+  },
 ]
 
 export const certifications = [
