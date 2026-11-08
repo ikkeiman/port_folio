@@ -4,7 +4,9 @@
       <div class="section-head reveal">
         <span class="num">01</span>
         <h2>Work</h2>
-        <p>企画・要件定義から設計・開発・運用まで、一人で通して担当したものを中心に。課題、やったこと、結果の順に書いています。</p>
+        <p>
+          企画・要件定義から設計・開発・運用まで、一人で通して担当したものを中心に。課題、やったこと、結果の順に書いています。
+        </p>
       </div>
 
       <article v-for="w in works" :key="w.id" class="work reveal">
@@ -35,7 +37,8 @@
           </div>
         </div>
 
-        <ArchitectureDiagram v-if="w.diagram" class="work-diagram" />
+        <ArchitectureDiagram v-if="w.diagram === true" class="work-diagram" />
+        <WorkDiagram v-else-if="w.diagram" :spec="w.diagram" class="work-diagram" />
 
         <footer class="work-foot">
           <ul class="stack">
@@ -51,6 +54,7 @@
 <script setup>
 import { works } from '@/data/site'
 import ArchitectureDiagram from '@/components/ArchitectureDiagram.vue'
+import WorkDiagram from '@/components/WorkDiagram.vue'
 </script>
 
 <style scoped>
