@@ -92,8 +92,67 @@ export const works = [
     },
   },
   {
-    id: 'local-ai',
+    id: 'search',
     index: '03',
+    title: 'kintone × Dropbox の社内情報を横断検索する基盤',
+    period: '2025 –',
+    role: '企画 / 設計 / 開発 / 運用',
+    stack: ['kintone API', 'Dropbox API', 'ChromaDB', 'ローカルLLM', 'kintone プラグイン'],
+    problem:
+      '社内情報が kintone のレコードと Dropbox のファイルに分かれ、kintone はアプリ・レコード単位、Dropbox はフォルダをたどる探し方しかなかった。どちらにあるか分からない情報は、事実上見つけられなかった。',
+    approach:
+      'kintone の全アプリのレコードと Dropbox のファイルを日次バッチで差分取り込みし、ローカルLLMで要約して ChromaDB に格納。社内ポータルに検索窓を置き、保管場所を意識せずに意味で探せるようにした。あわせて kintone プラグインを自作し、利用者が Dropbox を意識せずにファイルを添付でき、レコードとファイルが自動で紐づくようにした。',
+    result:
+      '単独で開発し、現在も稼働中。要約をローカルLLMで行い、データを社外に出さない構成にした。現場からの評価は高く、生成AI基盤（02）と合わせて「社内情報を AI から横断的に使う」取り組みの土台になっている。',
+    diagram: {
+      title: '社内情報の横断検索基盤の構成図',
+      caption:
+        '日次バッチで差分を取り込み、ローカルLLMで要約して ChromaDB へ。利用者は社内ポータルの検索窓から、保管場所を意識せずに探す。',
+      nodes: [
+        { id: 'kin', x: 20, y: 30, w: 160, h: 70, title: 'kintone', sub: '全アプリのレコード' },
+        { id: 'dbx', x: 20, y: 150, w: 160, h: 70, title: 'Dropbox', sub: 'ファイル' },
+        {
+          id: 'batch',
+          x: 230,
+          y: 90,
+          w: 150,
+          h: 80,
+          title: '日次バッチ',
+          sub: ['差分だけを取り込み', 'ローカルLLMで要約'],
+        },
+        { id: 'chroma', x: 430, y: 90, w: 140, h: 80, title: 'ChromaDB', sub: '要約を格納' },
+        { id: 'portal', x: 620, y: 90, w: 120, h: 80, title: '社内ポータル', sub: '検索窓' },
+        {
+          id: 'plugin',
+          x: 230,
+          y: 225,
+          w: 340,
+          h: 55,
+          title: 'kintone プラグイン（自作）',
+          sub: '添付したファイルを Dropbox に保存し、レコードと自動で紐づける',
+          ext: true,
+        },
+      ],
+      edges: [
+        { from: 'kin', to: 'batch' },
+        { from: 'dbx', to: 'batch' },
+        { from: 'batch', to: 'chroma' },
+        { from: 'chroma', to: 'portal', both: true },
+        {
+          points: [
+            [230, 252],
+            [100, 252],
+            [100, 222],
+          ],
+          dashed: true,
+        },
+      ],
+      labels: [{ x: 595, y: 82, text: '意味で検索' }],
+    },
+  },
+  {
+    id: 'local-ai',
+    index: '04',
     title: 'ローカルLLMで動く業務ツール',
     period: '2025 – 2026',
     role: '企画 / 設計 / 開発 / 現場テスト',
@@ -149,7 +208,7 @@ export const works = [
   },
   {
     id: 'rpa',
-    index: '04',
+    index: '05',
     title: 'RPA と業務自動化の推進',
     period: '2019 –',
     role: 'ヒアリング / 選定 / 開発 / 推進体制の設計',
@@ -190,7 +249,7 @@ export const works = [
   },
   {
     id: 'dx',
-    index: '05',
+    index: '06',
     title: 'DXを進めるための仕組みづくり',
     period: '2024 –',
     role: 'DX推進部門 責任者 / 会議運営 / 制度設計 / 研修講師',
@@ -266,7 +325,7 @@ export const works = [
   },
   {
     id: 'mopo',
-    index: '06',
+    index: '07',
     title: 'mopo — 「行きたい」を「行った」に変えるお出かけアプリ',
     period: '2026 – 個人開発',
     role: '企画 / 要件定義 / 事業計画 / 設計 / 試作',
@@ -350,7 +409,7 @@ export const works = [
   },
   {
     id: 'guard',
-    index: '07',
+    index: '08',
     title: 'llm-guard-gateway — 送る前に止める LLM 入力ガード',
     period: '2026 – 公開リポジトリ',
     role: '設計 / 実装 / 評価設計',
@@ -429,7 +488,7 @@ export const works = [
   },
   {
     id: 'mcp-guide',
-    index: '08',
+    index: '09',
     title: 'secure-mcp-server-guide — Claude Desktop に入れる MCP サーバーの安全な作り方',
     period: '2026 – 公開リポジトリ',
     role: '調査 / 設計案の比較 / 参照実装',
@@ -543,6 +602,10 @@ export const skillGroups = [
         note: '用途に応じて外部LLMと社内完結LLMを使い分ける構成設計',
       },
       {
+        name: 'ベクトル検索（ChromaDB）',
+        note: '社内情報の横断検索基盤を設計し、日次の差分取り込みで運用',
+      },
+      {
         name: 'MCPサーバー / AIエージェント',
         note: '大学の研究者のもとで試作・検証（2024 – 2026）。安全な作り方のガイドと参照実装を公開',
       },
@@ -608,7 +671,7 @@ export const timeline = [
   {
     year: '2025',
     title: '営業支援システムを一人で内製',
-    text: '地図×GPS×AI、約30,000行。ローカルLLM業務ツールの開発。',
+    text: '地図×GPS×AI、約30,000行。ローカルLLM業務ツールと、kintone・Dropbox の横断検索基盤の開発。',
   },
   {
     year: '2026',
