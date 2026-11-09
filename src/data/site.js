@@ -654,7 +654,7 @@ export const skillGroups = [
       { name: 'Python / FastAPI', note: 'API約35本、判定サーバー、OCR連携、集計処理' },
       {
         name: 'JavaScript / Vue 3',
-        note: '業務システムの画面設計・実装、kintoneカスタマイズ約3,500行',
+        note: '業務システムの画面設計・実装、kintoneカスタマイズ約3,500行。汎用部品は kintone-js-utils として公開',
       },
       { name: 'C# / .NET 8 / WPF', note: 'デスクトップ業務ツール、Windowsアプリ' },
       {
