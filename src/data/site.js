@@ -97,13 +97,19 @@ export const works = [
     title: 'kintone × Dropbox の社内情報を横断検索する基盤',
     period: '2025 –',
     role: '企画 / 設計 / 開発 / 運用',
-    stack: ['kintone API', 'Dropbox API', 'ChromaDB', 'ローカルLLM', 'kintone プラグイン'],
+    stack: [
+      'kintone API',
+      'Dropbox API',
+      'ChromaDB',
+      'ローカルLLM',
+      'kintone プラグイン（TypeScript）',
+    ],
     problem:
       '社内情報が kintone のレコードと Dropbox のファイルに分かれ、kintone はアプリ・レコード単位、Dropbox はフォルダをたどる探し方しかなかった。どちらにあるか分からない情報は、事実上見つけられなかった。',
     approach:
       'kintone の全アプリのレコードと Dropbox のファイルを日次バッチで差分取り込みし、ローカルLLMで要約して ChromaDB に格納。社内ポータルに検索窓を置き、保管場所を意識せずに意味で探せるようにした。あわせて kintone プラグインを自作し、利用者が Dropbox を意識せずにファイルを添付でき、レコードとファイルが自動で紐づくようにした。',
     result:
-      '単独で開発し、現在も稼働中。要約をローカルLLMで行い、データを社外に出さない構成にした。現場からの評価は高く、生成AI基盤（02）と合わせて「社内情報を AI から横断的に使う」取り組みの土台になっている。同じ構成を公開できる形で一から作り直したものが cross-source-search（GitHub）。',
+      '単独で開発し、現在も稼働中。要約をローカルLLMで行い、データを社外に出さない構成にした。現場からの評価は高く、生成AI基盤（02）と合わせて「社内情報を AI から横断的に使う」取り組みの土台になっている。検索基盤は cross-source-search、kintone プラグインは kintone-dropbox-plugin として、それぞれ公開できる形で作り直して GitHub に公開。',
     link: 'https://github.com/ikkeiman/cross-source-search',
     diagram: {
       title: '社内情報の横断検索基盤の構成図',
