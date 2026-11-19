@@ -645,6 +645,89 @@ export const works = [
       ],
     },
   },
+  {
+    id: 'claude-guide',
+    index: '11',
+    title: 'claude-safe-usage-guide — Claude Desktop と Claude Code を業務で安全に使う',
+    period: '2026 – 公開リポジトリ',
+    role: '調査 / 整理 / 設定のひな形 / 実装',
+    stack: ['Claude Code', 'Claude Desktop', 'Python', 'pytest / GitHub Actions'],
+    problem:
+      '生成 AI でコードや業務ツールが一瞬で作れるようになった分、権限を与えすぎる、秘密を読ませる、中身を確かめずに本番へ入れる、といった事故が起きやすくなった。',
+    approach:
+      '危険を入口・手足・出口・判断の 4 区分で整理し、Claude Code の権限ルール・hooks・サンドボックス・管理設定を公式ドキュメントで確認した書式でまとめた。AI が書いたコードの確認手順と、kintone カスタマイズでよくあるミスとアンチパターンの置き換え先も整理。秘密ファイルの読み書きや危ないコマンドを止める hook を、依存なしの Python で実装した。',
+    result:
+      'hook は実際に JSON を渡す形のテスト 53 件で判定を固定し、CI で確認。入力ガード・MCP・kintone の各公開リポジトリを実例として参照し、ひとつの指針としてつながる形にした。',
+    link: 'https://github.com/ikkeiman/claude-safe-usage-guide',
+    diagram: {
+      title: 'claude-safe-usage-guide の守りの層',
+      caption:
+        '入口で伏せ、権限と hook で絞り、本当の境界はサンドボックス・コンテナで作る。採用は証拠を見て人が決める。',
+      nodes: [
+        {
+          id: 'in',
+          x: 20,
+          y: 105,
+          w: 130,
+          h: 70,
+          title: '入口',
+          sub: ['個人情報を', '伏せる・止める'],
+        },
+        {
+          id: 'perm',
+          x: 185,
+          y: 105,
+          w: 130,
+          h: 70,
+          title: '権限ルール',
+          sub: 'allow / ask / deny',
+        },
+        {
+          id: 'hook',
+          x: 350,
+          y: 105,
+          w: 130,
+          h: 70,
+          title: 'hooks',
+          sub: ['実行の直前に', '止める・確認'],
+        },
+        {
+          id: 'box',
+          x: 515,
+          y: 105,
+          w: 225,
+          h: 70,
+          title: 'サンドボックス・コンテナ',
+          sub: '本当の境界（OS のレベル）',
+        },
+        {
+          id: 'judge',
+          x: 185,
+          y: 225,
+          w: 295,
+          h: 55,
+          title: '採用の判断は人',
+          sub: 'テスト・レビュー・説明できるか',
+          ext: true,
+        },
+        {
+          id: 'top',
+          x: 20,
+          y: 20,
+          w: 720,
+          h: 45,
+          title:
+            '5 つの原則：人が判断する・権限は最小・漏れる場所を作らない・確かめる・原文を残さない',
+          ext: true,
+        },
+      ],
+      edges: [
+        { from: 'in', to: 'perm' },
+        { from: 'perm', to: 'hook' },
+        { from: 'hook', to: 'box' },
+      ],
+    },
+  },
 ]
 
 export const skillGroups = [
